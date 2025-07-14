@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freaking Cool Gym</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+      :root {
+        --primary-color: #00ff99;
+        --bg-color: #0d0d0d;
+        --text-color: #fff;
+        --accent-color: #111;
+        --card-bg: rgba(255, 255, 255, 0.05);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Oswald", sans-serif;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+      }
+
+      nav .logo {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+      }
+
+      nav ul li a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary-color);
+      }
+
+      header {
+        position: relative;
+        height: 100vh;
+        background: url("placeholder-hero.jpg") center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-attachment: fixed;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(0, 0, 0, 0.6),
+          rgba(0, 0, 0, 0.8)
+        );
+      }
+
+      header h1 {
+        position: relative;
+        font-size: 4rem;
+        z-index: 1;
+        color: var(--primary-color);
+        text-shadow: 0 0 20px var(--primary-color);
+        animation: glow 2s infinite alternate;
+      }
+
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 20px var(--primary-color);
+        }
+        to {
+          text-shadow: 0 0 40px var(--primary-color);
+        }
+      }
+
+      section {
+        padding: 100px 50px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      section:nth-child(even) {
+        flex-direction: row-reverse;
+        background: var(--accent-color);
+      }
+
+      section img {
+        width: 40%;
+        max-width: 497px;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(0, 255, 153, 0.4);
+        transition: transform 0.6s ease, box-shadow 0.6s ease;
+        z-index: 1;
+      }
+
+      section img:hover {
+        transform: scale(1.05) rotateY(5deg);
+        box-shadow: 0 0 60px rgba(0, 255, 153, 0.6);
+      }
+
+      section .content {
+        max-width: 500px;
+        z-index: 1;
+      }
+
+      section .content h2 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      section .content p {
+        line-height: 1.6;
+      }
+
+      /* Features Section */
+      #Features {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .features-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .feature-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(0, 255, 153, 0.2);
+        border-radius: 20px;
+        overflow: hidden; /* Make the image corners match the card */
+        max-width: 300px;
+        flex: 1 1 250px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 20px rgba(0, 255, 153, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-align: center;
+        padding: 0; /* Remove padding here */
+      }
+      .feature-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .feature-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0;
+      }
+
+      .feature-card .card-content {
+        padding: 20px; /* Add padding only to the text part */
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 0 40px rgba(0, 255, 153, 0.4);
+      }
+
+      .feature-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+      }
+
+      .feature-card p {
+        line-height: 1.6;
+      }
+
+      /* Quote Section */
+      #quote {
+        text-align: center;
+        padding: 60px 20px;
+        background: var(--accent-color);
+      }
+
+      #quote blockquote {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        text-shadow: 0 0 20px var(--primary-color);
+        font-style: italic;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 50px;
+        background: #000;
+        color: #666;
+      }
+
+      .join-now {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--primary-color);
+        color: #000;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+        transition: transform 0.3s;
+        z-index: 1001;
+      }
+
+      .join-now:hover {
+        transform: scale(1.1);
+      }
+
+      #contact {
+        padding: 50px;
+        text-align: center;
+      }
+
+      #contact p {
+        line-height: 1.8;
+      }
+
+      #contact p span {
+        display: block;
+        margin-top: 10px;
+        color: var(--primary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">FreakingGym</div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#Features">Features</a></li>
+        <li><a href="#philosophy">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <header>
+      <h1 data-aos="fade-up">Push Beyond Limits</h1>
+    </header>
+
+    <section id="Features" data-aos="fade-up">
+      <h2 style="font-size: 30px;" >Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <a href="./features/training-program.html">
+            <img src="training-icon.jpg" alt="Training Program" />
+            <div class="card-content">
+              <h3>Training Program</h3>
+              <p>
+                Create a personalized training program that adapts to your
+                goals. Build, adjust, and smash your limits.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="feature-card">
+          <a href="./features/training-program.html">
+            <img src="diet-icon.jpg" alt="Healthy Diet" />
+            <div class="card-content">
+              <h3>Healthy Diet</h3>
+              <p>
+                Generate a custom meal plan based on your weight, height, and
+                age. Fuel your gains with smart nutrition.
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="feature-card">
+          <a href="./features/training-program.html">
+            <img src="progress-icon.jpg" alt="Track Progress" />
+            <div class="card-content">
+              <h3>Track Your Progress</h3>
+              <p>
+                Track your fitness journey anytime. See your growth, stay
+                motivated, and celebrate every milestone.
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="quote" data-aos="fade-up">
+      <blockquote>“Practice Makes Perfect”</blockquote>
+    </section>
+
+    <section id="philosophy" data-aos="fade-up">
+      <img src="./Chillin.jpg" alt="Gym Interior" />
+      <div class="content">
+        <h2>Our Philosophy</h2>
+        <p>
+          At FreakingGym, we believe everyone has the power to break barriers.
+          Step into a space where energy is contagious, sweat is your badge of
+          honor, and progress is the only option.
+        </p>
+      </div>
+    </section>
+
+    <section id="equipment" data-aos="fade-up">
+      <img
+        src="https://housing.com/news/wp-content/uploads/2022/11/GYM-INTERIORS-FEATURE-compressed.jpg"
+        alt="3D Training Equipment"
+      />
+      <div class="content">
+        <h2>Equipment</h2>
+        <p>
+          Train with state-of-the-art equipment designed to get you to your
+          best. From immersive 3D rigs to smart resistance machines, your
+          next-level workout starts here.
+        </p>
+      </div>
+    </section>
+
+    <section id="training" data-aos="fade-up">
+      <img
+        src="https://www.ifp.com.au/wp-content/uploads/2024/03/Unlocking-Fitness-A-Guide-to-Personal-Training-at-Our-Cranbourne-Gym.jpg"
+        alt="Personal Training"
+      />
+      <div class="content">
+        <h2>Personal Training</h2>
+        <p>
+          Our pro trainers tailor every session to your goals. No cookie-cutter
+          plans — only custom progress, serious accountability, and
+          transformation that sticks.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" data-aos="fade-up">
+      <div class="content">
+        <h2>Contact Us</h2>
+        <p>Want to join the FreakingGym community?</p>
+        <p><span>Email:</span> info@freakinggym.com</p>
+        <p><span>Phone:</span> +1 (234) 567-8901</p>
+      </div>
+    </section>
+
+    <a href="#" class="join-now">Join Now</a>
+
+    <footer>&copy; 2025 FreakingGym. All rights reserved.</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+  </body>
+</html>

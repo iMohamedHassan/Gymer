@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Training Program</title>
+  <style>
+    /* Main website style - matching your Healthy Diet site style */
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      background-color: #004080;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffcc00;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 30px 40px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 40px;
+      justify-content: center;
+    }
+
+    form input,
+    form select {
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      width: 180px;
+      transition: border-color 0.3s ease;
+    }
+
+    form input:focus,
+    form select:focus {
+      outline: none;
+      border-color: #004080;
+    }
+
+    form button {
+      background-color: #004080;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      align-self: center;
+      min-width: 200px;
+    }
+
+    form button:hover {
+      background-color: #00264d;
+    }
+
+    .day-buttons {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .day-buttons button {
+      background-color: #eee;
+      border: none;
+      padding: 12px 22px;
+      margin: 0 8px 8px 0;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .day-buttons button.active,
+    .day-buttons button:hover {
+      background-color: #004080;
+      color: white;
+    }
+
+    .missions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .mission-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background-color: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .mission-card:hover {
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .mission-card img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .mission-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #004080;
+    }
+
+    .mission-card p {
+      font-size: 15px;
+      color: #555;
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      form input,
+      form select {
+        width: 100%;
+      }
+
+      form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Personalized Training Program
+  </header>
+
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="./Training Program.html" class="active">Training Program</a>
+    <a href="./Healthy_diet.html">Healthy Diet</a>
+    <a href="./Progress.html">Progress</a>
+  </nav>
+
+  <div class="container">
+    <form id="userInputForm" autocomplete="off">
+      <input type="number" id="age" name="age" placeholder="Age" min="10" max="120" required />
+      <input type="number" id="weight" name="weight" placeholder="Weight (kg)" min="20" max="250" required />
+      <input type="number" id="height" name="height" placeholder="Height (cm)" min="100" max="250" required />
+
+      <select id="trainingLocation" name="trainingLocation" required>
+        <option value="" disabled selected>Where will you train?</option>
+        <option value="home">At Home</option>
+        <option value="gym">At the Gym</option>
+      </select>
+
+      <button type="submit">Generate Training Program</button>
+    </form>
+
+    <div class="day-buttons" id="dayButtons"></div>
+    <div class="missions" id="missionsContainer"></div>
+  </div>
+
+  <script>
+    // Exercise data for gym and home - trimmed here for brevity; add full lists as you want
+    const gymExercises = [
+      { name: "Bench Press", details: "Perform 3 sets of 15 repetitions.", image: "https://th.bing.com/th/id/R.36fec79a630860a89ca17c62be801d33?rik=WG7B4OVF19G2Tg&pid=ImgRaw&r=0" },
+      { name: "Deadlifts", details: "Perform 3 sets of 12 repetitions.", image: "https://th.bing.com/th/id/R.1c9c8fe79f40e4724e4e4db06f9563b4?rik=ejdIAh6LJ2q7cw&riu=http%3a%2f%2fassets.menshealth.co.uk%2fmain%2fthumbs%2f33472%2fstiff-legged-deadlift.jpg&ehk=mFN0k9jf6i5wBO%2bvaJpLBfzAREVzNO3zjrHQUWby1fw%3d&risl=&pid=ImgRaw&r=0" },
+      { name: "Squats", details: "Perform 3 sets of 20 repetitions.", image: "https://th.bing.com/th/id/R.8c2cb97d24ecca532f70525a0b085378?rik=Mla7pWMd0q4fpw&pid=ImgRaw&r=0" },
+      { name: "Pull-ups", details: "Perform 3 sets of 10 repetitions.", image: "https://www.inspireusafoundation.org/wp-content/uploads/2022/11/pull-up-variations.jpg" },
+      { name: "Cable Rows", details: "Perform 3 sets of 12 repetitions.", image: "https://th.bing.com/th/id/OIP.w865JOy5flQsMoU4W7Sd4AHaGg?rs=1&pid=ImgDetMain" },
+      { name: "Leg Press", details: "Perform 3 sets of 15 repetitions.", image: "https://th.bing.com/th/id/R.db7f080df9d46f05dab24c58fac32e35?rik=FMn4BlEaDUMylg&pid=ImgRaw&r=0" },
+      { name: "Lat Pulldown", details: "Perform 3 sets of 12 repetitions.", image: "https://fitatmidlife.com/wp-content/uploads/bodybuilder-performing-lat-pulldowns-on-a-machine.jpg" },
+      { name: "Chest Fly", details: "Perform 3 sets of 12 repetitions.", image: "https://starmarkfitnessstudio.com/wp-content/uploads/2020/09/Chest-Fly.jpg" },
+      { name: "Smith Machine Squats", details: "Perform 3 sets of 15 repetitions.", image: "https://th.bing.com/th/id/R.677f6e78ba61d48e699d08e05f3b38ac?rik=yz5kEzAMTCnuAw&pid=ImgRaw&r=0" },
+      { name: "Bicep Curls", details: "Perform 3 sets of 12 repetitions.", image: "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/media/1109-main-standing-bicep-curl.jpg?itok=Tm0yDyzk" },
+      { name: "Tricep Dips", details: "Perform 3 sets of 15 repetitions.", image: "https://th.bing.com/th/id/OIP.nwTGhePDdZcHIJ13AA7plAAAAA?rs=1&pid=ImgDetMain" },
+    ];
+
+    const homeExercises = [
+      { name: "Push-ups", details: "Perform 3 sets of 15 repetitions.", image: "https://th.bing.com/th/id/OIP.inEqdJ5c0UQpkFlVn1CRlgHaEK?rs=1&pid=ImgDetMain" },
+      { name: "Lunges", details: "Perform 3 sets of 10 repetitions per leg.", image: "https://th.bing.com/th/id/R.f1aa2b856107accefe66bcf20629bfe0?rik=8%2bpXV%2b%2fqZbLkQA&pid=ImgRaw&r=0" },
+      { name: "Plank", details: "Hold for 1 minute. Repeat 3 times.", image: "https://th.bing.com/th/id/R.544f1cfcf0c7b70d039855a0461e0913?rik=tTlUbY5Jzh3Xxg&riu=http%3a%2f%2fbarbend.com%2fwp-content%2fuploads%2f2021%2f06%2fBarBend-Article-Image-760-x-427-2021-06-02T165321.789.jpg&ehk=qSyGO%2fW0%2fAOBmcKGu7F4Uvt%2bTzop5dYXd1xNO3ERGe4%3d&risl=&pid=ImgRaw&r=0" },
+      { name: "Burpees", details: "Perform 3 sets of 10 repetitions.", image: "https://th.bing.com/th/id/OIP.vDmjKQPoxkUb4Dn70UHX9wHaEZ?w=663&h=394&rs=1&pid=ImgDetMain" },
+      { name: "Mountain Climbers", details: "Perform 3 sets of 20 repetitions per leg.", image: "https://th.bing.com/th/id/R.7332b7ab82c0cefa5163f51fb82e0ebf?rik=9DZBmxGL2sI%2ffw&riu=http%3a%2f%2fhiitacademy.com%2fwp-content%2fuploads%2f2015%2f02%2fmountain_climbers-1024x305.jpg&ehk=kRC6CQ%2bZ5QMDdCLyOIIRykSvAw%2fMg%2f%2fYJu5nRYZARsk%3d&risl=&pid=ImgRaw&r=0" },
+      { name: "Jumping Jacks", details: "Perform 3 sets of 30 repetitions.", image: "https://th.bing.com/th/id/R.c86ec132bb27ce66a4b4c0490d1823c8?rik=JrxxXPVMSOB3nA&pid=ImgRaw&r=0&sres=1&sresct=1" },
+      { name: "High Knees", details: "Perform 3 sets of 20 repetitions per leg.", image: "https://www.focusfitness.net/stock-photos/wp-content/uploads/edd/2017/07/Fit-man-doing-high-knees-cardio-exercise.jpg" },
+      { name: "Glute Bridges", details: "Perform 3 sets of 20 repetitions.", image: "https://th.bing.com/th/id/R.06c97d6bd08366dc36da2d9787359c81?rik=8UlAg2WTOXgP5g&pid=ImgRaw&r=0" },
+      { name: "Side Plank", details: "Hold for 30 seconds per side. Repeat 3 times.", image: "https://th.bing.com/th/id/OIP.gJESVAsuE8kNnGCVQyJjjwHaDR?w=1024&h=453&rs=1&pid=ImgDetMain" },
+      { name: "Russian Twists", details: "Perform 3 sets of 20 repetitions per side.", image: "https://th.bing.com/th/id/OIP.MfmjOlvs9Wp5DLpv2FxVhQHaEo?w=640&h=400&rs=1&pid=ImgDetMain" },
+    ];
+
+    const form = document.getElementById('userInputForm');
+    const dayButtonsDiv = document.getElementById('dayButtons');
+    const missionsContainer = document.getElementById('missionsContainer');
+    let trainingProgram = {};
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      generateTrainingProgram();
+    });
+
+    function generateTrainingProgram() {
+      trainingProgram = {};
+      dayButtonsDiv.innerHTML = '';
+      missionsContainer.innerHTML = '';
+
+      const trainingLocation = document.getElementById('trainingLocation').value;
+      const selectedExercises = trainingLocation === "gym" ? gymExercises : homeExercises;
+
+      for(let i=1; i<=7; i++) {
+        trainingProgram['Day ' + i] = getRandomExercises(selectedExercises, 10);
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Day ' + i;
+        btn.id = 'Day ' + i;
+        btn.addEventListener('click', () => {
+          highlightActiveButton(btn);
+          displayMissions('Day ' + i);
+        });
+
+        dayButtonsDiv.appendChild(btn);
+      }
+
+      // Activate Day 1 by default
+      const firstBtn = dayButtonsDiv.querySelector('button');
+      if (firstBtn) {
+        firstBtn.classList.add('active');
+        displayMissions(firstBtn.id);
+      }
+    }
+
+    function displayMissions(day) {
+      missionsContainer.innerHTML = '';
+
+      const exercises = trainingProgram[day];
+      exercises.forEach(exercise => {
+        const card = document.createElement('div');
+        card.className = 'mission-card';
+
+        const img = document.createElement('img');
+        img.src = exercise.image;
+        img.alt = exercise.name;
+        img.onerror = () => img.src = 'https://via.placeholder.com/250x150?text=No+Image';
+
+        const title = document.createElement('h3');
+        title.textContent = exercise.name;
+
+        const details = document.createElement('p');
+        details.textContent = exercise.details;
+
+        card.appendChild(img);
+        card.appendChild(title);
+        card.appendChild(details);
+
+        missionsContainer.appendChild(card);
+      });
+    }
+
+    function highlightActiveButton(activeBtn) {
+      const buttons = dayButtonsDiv.querySelectorAll('button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+
+    function getRandomExercises(exercises, count) {
+      const shuffled = exercises.slice().sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
+  </script>
+</body>
+</html>
